@@ -1,9 +1,9 @@
-# Obsidian Outliner
+# List Extra Outliner
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vslinko/obsidian-outliner/build.yml?style=for-the-badge&branch=main)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/vslinko/obsidian-outliner?style=for-the-badge&sort=semver)
 
-**Work with your lists like in Workflowy or RoamResearch**
+**an extend to Outliner project**
 
 ⁉️ [Discuss ideas or ask a question](https://github.com/vslinko/obsidian-outliner/discussions)<br>
 ⚙️ [Follow the development process](https://github.com/users/vslinko/projects/3/views/1)<br>

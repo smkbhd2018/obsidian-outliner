@@ -1,10 +1,10 @@
 {
-  "id": "obsidian-outliner",
-  "name": "Outliner",
+  "id": "list-extra-outliner",
+  "name": "List Extra Outliner",
   "version": "4.9.0",
   "minAppVersion": "1.8.7",
-  "description": "Work with your lists like in Workflowy or RoamResearch.",
-  "author": "Viacheslav Slinko",
+  "description": "an extend to Outliner project",
+  "author": "sajjad abouei",
   "authorUrl": "https://github.com/vslinko",
   "isDesktopOnly": false
 }

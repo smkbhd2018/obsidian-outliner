@@ -19,6 +19,7 @@ import { SystemInfo } from "./features/SystemInfo";
 import { TabBehaviourOverride } from "./features/TabBehaviourOverride";
 import { VerticalLines } from "./features/VerticalLines";
 import { VimOBehaviourOverride } from "./features/VimOBehaviourOverride";
+import { ListClipboardCommands } from "./features/ListClipboardCommands";
 import { ChangesApplicator } from "./services/ChangesApplicator";
 import { IMEDetector } from "./services/IMEDetector";
 import { Logger } from "./services/Logger";
@@ -41,6 +42,7 @@ export default class ObsidianOutlinerPlugin extends Plugin {
   private changesApplicator: ChangesApplicator;
   private operationPerformer: OperationPerformer;
   private imeDetector: IMEDetector;
+  private clipboard = { text: "" };
 
   async onload() {
     console.log(`Loading obsidian-outliner`);
@@ -72,6 +74,12 @@ export default class ObsidianOutlinerPlugin extends Plugin {
         this.operationPerformer,
       ),
       new ListsFoldingCommands(this, this.obsidianSettings),
+      new ListClipboardCommands(
+        this,
+        this.parser,
+        this.operationPerformer,
+        this.clipboard,
+      ),
 
       // features based on settings.keepCursorWithinContent
       new EditorSelectionsBehaviourOverride(
