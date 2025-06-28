@@ -10,6 +10,7 @@ import { EditorSelectionsBehaviourOverride } from "./features/EditorSelectionsBe
 import { EnterBehaviourOverride } from "./features/EnterBehaviourOverride";
 import { Feature } from "./features/Feature";
 import { ListsClipboardCommands } from "./features/ListsClipboardCommands";
+import { HeadingsClipboardCommands } from "./features/HeadingsClipboardCommands";
 import { ListsFoldingCommands } from "./features/ListsFoldingCommands";
 import { ListsMovementCommands } from "./features/ListsMovementCommands";
 import { MetaBackspaceBehaviourOverride } from "./features/MetaBackspaceBehaviourOverride";
@@ -78,6 +79,7 @@ export default class ObsidianOutlinerPlugin extends Plugin {
         this.operationPerformer,
         this.obsidianSettings,
       ),
+      new HeadingsClipboardCommands(this),
       new ListsFoldingCommands(this, this.obsidianSettings),
 
       // features based on settings.keepCursorWithinContent
