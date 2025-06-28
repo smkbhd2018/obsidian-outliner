@@ -61,9 +61,11 @@ export class PasteList implements Operation {
 
     let listUnderCursor = root.getListUnderCursor();
     if (!listUnderCursor) {
-      const line = root.getCursor().line - 1;
-      if (line >= root.getContentStart().line) {
+      let line = root.getCursor().line - 1;
+      const minLine = root.getContentStart().line;
+      while (!listUnderCursor && line >= minLine) {
         listUnderCursor = root.getListUnderLine(line);
+        line--;
       }
     }
     if (!listUnderCursor) {

@@ -91,8 +91,12 @@ export class ListsClipboardCommands implements Feature {
     let root = this.parser.parse(editor, parseCursor);
 
     if (!root && cursor.line > 0) {
-      parseCursor = { line: cursor.line - 1, ch: 0 };
-      root = this.parser.parse(editor, parseCursor);
+      let line = cursor.line - 1;
+      while (!root && line >= 0) {
+        parseCursor = { line, ch: 0 };
+        root = this.parser.parse(editor, parseCursor);
+        line--;
+      }
     }
 
     if (!root) {
