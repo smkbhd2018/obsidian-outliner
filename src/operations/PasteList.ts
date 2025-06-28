@@ -73,9 +73,25 @@ export class PasteList implements Operation {
     }
 
     const reader = new StringReader(this.text);
-    const parsedRoots = this.parser.parseRange(reader);
+    let parsedRoots = this.parser.parseRange(reader);
     if (!parsedRoots.length) {
-      return;
+      const indentMatch = this.text.match(/^([ \t]*)(?:[-*+]|\d+\.)[ \t]/m);
+      if (indentMatch && indentMatch[1]) {
+        const indent = indentMatch[1];
+        const unindented = this.text
+          .replace(/\n$/, "")
+          .split("\n")
+          .map((l) => (l.startsWith(indent) ? l.slice(indent.length) : l))
+          .join("\n") + "\n";
+        parsedRoots = this.parser.parseRange(new StringReader(unindented));
+        if (parsedRoots.length) {
+          this.text = unindented;
+        } else {
+          return;
+        }
+      } else {
+        return;
+      }
     }
 
     const newListSource = parsedRoots[0].getChildren()[0];
