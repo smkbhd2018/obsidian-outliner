@@ -86,22 +86,34 @@ export class ListsClipboardCommands implements Feature {
       return false;
     }
 
-    let op: PasteList | null = null;
-    const { shouldStopPropagation } = this.operationPerformer.perform(
-      (root) => {
-        op = new PasteList(
-          root,
-          this.buffer,
-          this.obsidianSettings.getDefaultIndentChars(),
-          this.parser,
-        );
-        return op;
-      },
+    const cursor = editor.getCursor();
+    let parseCursor = cursor;
+    let root = this.parser.parse(editor, parseCursor);
+
+    if (!root && cursor.line > 0) {
+      parseCursor = { line: cursor.line - 1, ch: 0 };
+      root = this.parser.parse(editor, parseCursor);
+    }
+
+    if (!root) {
+      return false;
+    }
+
+    const pasteOp = new PasteList(
+      root,
+      this.buffer,
+      this.obsidianSettings.getDefaultIndentChars(),
+      this.parser,
+    );
+
+    const { shouldStopPropagation } = this.operationPerformer.eval(
+      root,
+      pasteOp,
       editor,
     );
 
-    if (op && op.getInsertedLine() !== null) {
-      editor.fold(op.getInsertedLine()!);
+    if (pasteOp.getInsertedLine() !== null) {
+      editor.fold(pasteOp.getInsertedLine()!);
     }
 
     return shouldStopPropagation;
