@@ -60,10 +60,13 @@ export class ListsClipboardCommands implements Feature {
 
   private cut = (editor: MyEditor) => {
     let op: CutList | null = null;
-    const { shouldStopPropagation } = this.operationPerformer.perform((root) => {
-      op = new CutList(root);
-      return op;
-    }, editor);
+    const { shouldStopPropagation } = this.operationPerformer.perform(
+      (root) => {
+        op = new CutList(root);
+        return op;
+      },
+      editor,
+    );
 
     if (op) {
       this.buffer = op.getText();
@@ -78,15 +81,18 @@ export class ListsClipboardCommands implements Feature {
     }
 
     let op: PasteList | null = null;
-    const { shouldStopPropagation } = this.operationPerformer.perform((root) => {
-      op = new PasteList(
-        root,
-        this.buffer,
-        this.obsidianSettings.getDefaultIndentChars(),
-        this.parser,
-      );
-      return op;
-    }, editor);
+    const { shouldStopPropagation } = this.operationPerformer.perform(
+      (root) => {
+        op = new PasteList(
+          root,
+          this.buffer,
+          this.obsidianSettings.getDefaultIndentChars(),
+          this.parser,
+        );
+        return op;
+      },
+      editor,
+    );
 
     if (op && op.getInsertedLine() !== null) {
       editor.fold(op.getInsertedLine()!);

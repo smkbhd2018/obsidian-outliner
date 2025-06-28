@@ -1,6 +1,6 @@
 import { Operation } from "./Operation";
 
-import { List, Root, recalculateNumericBullets } from "../root";
+import { Root, recalculateNumericBullets } from "../root";
 import { Parser, Reader } from "../services/Parser";
 
 class StringReader implements Reader {
@@ -59,7 +59,13 @@ export class PasteList implements Operation {
       return;
     }
 
-    const listUnderCursor = root.getListUnderCursor();
+    let listUnderCursor = root.getListUnderCursor();
+    if (!listUnderCursor) {
+      const line = root.getCursor().line - 1;
+      if (line >= root.getContentStart().line) {
+        listUnderCursor = root.getListUnderLine(line);
+      }
+    }
     if (!listUnderCursor) {
       return;
     }
@@ -85,7 +91,7 @@ export class PasteList implements Operation {
     newList.indentContent(0, newIndent);
 
     // mark as folded
-    (newList as any).foldRoot = true;
+    (newList as unknown as { foldRoot: boolean }).foldRoot = true;
 
     parent.addAfter(listUnderCursor, newList);
 
