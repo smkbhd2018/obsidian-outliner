@@ -78,11 +78,12 @@ export class PasteList implements Operation {
       const indentMatch = this.text.match(/^([ \t]*)(?:[-*+]|\d+\.)[ \t]/m);
       if (indentMatch && indentMatch[1]) {
         const indent = indentMatch[1];
-        const unindented = this.text
-          .replace(/\n$/, "")
-          .split("\n")
-          .map((l) => (l.startsWith(indent) ? l.slice(indent.length) : l))
-          .join("\n") + "\n";
+        const unindented =
+          this.text
+            .replace(/\n$/, "")
+            .split("\n")
+            .map((l) => (l.startsWith(indent) ? l.slice(indent.length) : l))
+            .join("\n") + "\n";
         parsedRoots = this.parser.parseRange(new StringReader(unindented));
         if (parsedRoots.length) {
           this.text = unindented;

@@ -106,4 +106,3 @@ export class HeadingsClipboardCommands implements Feature {
     return true;
   };
 }
-
