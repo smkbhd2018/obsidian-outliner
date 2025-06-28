@@ -55,6 +55,9 @@ export class ListsClipboardCommands implements Feature {
       return false;
     }
     this.buffer = list.print();
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(this.buffer).catch(() => {});
+    }
     return true;
   };
 
@@ -70,6 +73,9 @@ export class ListsClipboardCommands implements Feature {
 
     if (op) {
       this.buffer = op.getText();
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(this.buffer).catch(() => {});
+      }
     }
 
     return shouldStopPropagation;
