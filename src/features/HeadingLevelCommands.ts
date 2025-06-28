@@ -67,24 +67,22 @@ export class HeadingLevelCommands implements Feature {
 
     const folded = editor.getAllFoldedLines().includes(info.startLine);
 
-    const toLine = info.to.ch === 0 ? info.to.line - 1 : info.to.line;
     const headingRe = /^(#{1,6})(\s+)/;
+    const oldText = editor.getRange(info.from, info.to);
+    const lines = oldText.split("\n");
 
-    for (let line = info.from.line; line <= toLine; line++) {
-      const text = editor.getLine(line);
-      const m = headingRe.exec(text);
+    for (let i = 0; i < lines.length; i++) {
+      const m = headingRe.exec(lines[i]);
       if (m) {
         let level = m[1].length + delta;
         if (level < 1) level = 1;
         if (level > 6) level = 6;
-        const newText = "#".repeat(level) + text.slice(m[1].length);
-        editor.replaceRange(
-          newText,
-          { line, ch: 0 },
-          { line, ch: text.length },
-        );
+        lines[i] = "#".repeat(level) + lines[i].slice(m[1].length);
       }
     }
+
+    const newText = lines.join("\n");
+    editor.replaceRange(newText, info.from, info.to);
 
     if (folded) {
       editor.fold(info.startLine);
