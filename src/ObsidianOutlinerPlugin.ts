@@ -9,6 +9,9 @@ import { DragAndDrop } from "./features/DragAndDrop";
 import { EditorSelectionsBehaviourOverride } from "./features/EditorSelectionsBehaviourOverride";
 import { EnterBehaviourOverride } from "./features/EnterBehaviourOverride";
 import { Feature } from "./features/Feature";
+import { HeadingLevelCommands } from "./features/HeadingLevelCommands";
+import { HeadingsClipboardCommands } from "./features/HeadingsClipboardCommands";
+import { ListsClipboardCommands } from "./features/ListsClipboardCommands";
 import { ListsFoldingCommands } from "./features/ListsFoldingCommands";
 import { ListsMovementCommands } from "./features/ListsMovementCommands";
 import { MetaBackspaceBehaviourOverride } from "./features/MetaBackspaceBehaviourOverride";
@@ -71,6 +74,14 @@ export default class ObsidianOutlinerPlugin extends Plugin {
         this.obsidianSettings,
         this.operationPerformer,
       ),
+      new ListsClipboardCommands(
+        this,
+        this.parser,
+        this.operationPerformer,
+        this.obsidianSettings,
+      ),
+      new HeadingsClipboardCommands(this),
+      new HeadingLevelCommands(this),
       new ListsFoldingCommands(this, this.obsidianSettings),
 
       // features based on settings.keepCursorWithinContent
